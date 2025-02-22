@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Digital Library{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'library/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Digital Library</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'add_book' %}">Add New Book</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'borrowed_books' %}">My Borrowed Books</a></li>
+                <li class="user-info">
+                    <a href="{% url 'users:user_profile' user.username %}">Hello, <strong>{{ user.username }}</strong></a> | 
+                    <a href="{% url 'users:logout' %}" onclick="return confirmLogout()">Logout</a>
+                </li>
+                {% else %}
+                <li><a href="{% url 'users:login' %}">Login</a></li>
+                <li><a href="{% url 'users:register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+    </header>
+    <main>
+        {% block content %}
+        <!-- Main content will go here -->
+        {% endblock %}
+    </main>
+    <footer>
+        <p>Contact us: tadevosyanedgar22@gmail.com | +374-99-33-85-94</p>
+    </footer>
+    
+    <script>
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const carousel = document.querySelector(".carousel");
+            if (!carousel) return;  // Exit if there's no carousel on the page
+
+            const prevBtn = document.querySelector(".prev-btn");
+            const nextBtn = document.querySelector(".next-btn");
+
+            nextBtn.addEventListener("click", () => {
+                carousel.scrollBy({ left: 220, behavior: "smooth" });
+            });
+
+            prevBtn.addEventListener("click", () => {
+                carousel.scrollBy({ left: -220, behavior: "smooth" });
+            });
+        });
+    </script>
+        
+</body>
+</html>

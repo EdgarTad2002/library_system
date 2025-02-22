@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Book - Digital Library{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation-container">
+    <h2>Delete Book</h2>
+    <p>Are you sure you want to delete the following book?</p>
+
+    <!-- Display Book Details -->
+    <div class="book-details">
+        <img src="{{ book.photo.url }}" alt="{{ book.title }}" class="book-image">
+        <div class="book-info">
+            <h3>{{ book.title }}</h3>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        </div>
+    </div>
+
+    <!-- Confirmation Form -->
+    <form method="post" class="confirmation-form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-delete">Yes, Delete</button>
+        <a href="{% url 'home' %}" class="btn btn-cancel">Cancel</a>
+    </form>
+</div>
+{% endblock %}

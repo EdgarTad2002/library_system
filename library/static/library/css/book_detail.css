@@ -1,0 +1,116 @@
+.book-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.book-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.book-cover {
+    width: 200px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-title {
+    font-size: 2rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+.book-author {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.book-info {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.book-genre {
+    display: inline-block;
+    background-color: #bf0912;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+
+.book-info p {
+    margin: 10px 0;
+}
+
+.book-info strong {
+    color: #333;
+}
+
+/* Button container for alignment */
+.button-container {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 20px; /* Add some space above the buttons */
+}
+
+/* Base button styles */
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.03);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Specific styles for the Edit button */
+.btn-edit {
+    background-color: #007bff; /* Blue color */
+}
+
+.btn-edit:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Specific styles for the Borrow button */
+.btn-borrow {
+    background-color: #28a745; /* Green color */
+}
+
+.btn-borrow:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+
+.btn-delete {
+    background-color: #8c061d; /* Green color */
+}
+
+.btn-delete:hover {
+    background-color: #8c061d; /* Darker green on hover */
+}

@@ -1,0 +1,45 @@
+/* Add this CSS to your existing stylesheet or within a <style> tag in your template */
+
+/* General body styling */
+
+/* Container for the logout content */
+.logout-container {
+    text-align: center;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    width: 100%;
+}
+
+/* Styling for the heading */
+.logout-container h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Styling for the paragraph */
+.logout-container p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+
+/* Styling for the return home link */
+.logout-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #3498db;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the link */
+.logout-container a:hover {
+    background-color: #2980b9;
+}

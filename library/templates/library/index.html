@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name }} - Digital Library
+    {% else %}
+        Home - Digital Library
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h2>Welcome to Digital Library</h2>
+    <p>Explore, Borrow, and Read Your Favorite Books Anytime.</p>
+    <form method="GET" action="{% if category %}{% url 'books_by_category' category.slug %}{% else %}{% url 'home' %}{% endif %}">
+        <input type="text" name="q" placeholder="Search for books, authors, or ISBN">
+        <button type="submit">Search</button>
+    </form>
+</section>
+<section class="book-list">
+    <h3>
+        {% if query %}
+            Search Results for "{{ query }}" {% if category %}in {{ category.name }}{% endif %}
+        {% elif message %}
+            {{ message }}
+        {% else %}
+            Available Books
+        {% endif %}
+    </h3>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{% url 'book_detail' book.slug %}">
+                    <img src="{{ book.photo.url }}" alt="{{ book.title }}" class="book-image">
+                </a>
+                <div class="show-title">{{ book.title }}</div>
+                <!-- <strong>{{ book.title }}</strong><br>
+                By {{ book.author }}<br>
+                ISBN: {{ book.isbn }} -->
+                
+            </li>
+        
+            {% empty %}
+            <!-- No Results Message -->
+            <div class="no-results">
+                <h3>Oops! No Results Found</h3>
+                <p>
+                    {% if query %}
+                        We couldn't find any books matching "{{ query }}". Try searching for something else.
+                    {% elif category %}
+                        There are no books available in the "{{ category.name }}" category.
+                    {% else %}
+                        No books are currently available.
+                    {% endif %}
+                </p>
+                <img src="{% static 'library/images/no-results.svg' %}" alt="No Results" class="no-results-image">
+            </div>
+        {% endfor %}
+    </ul>
+
+    
+</section>
+{% endblock %}
+

@@ -1,0 +1,179 @@
+/* General styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #d1d1d7;          
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Section styling */
+.login-section {
+    flex: 1.2;
+    max-width: 500px;
+    margin: auto; /* Moves it to the right */
+    background: #ffffff;
+    width: 35%;
+    padding: 80px;
+    border-radius: 32px;
+    box-shadow: 24px 24px 24px 24px rgb(13, 47, 181);
+}
+
+
+.login-section h2 {
+    text-align: left;
+    color: #0f0101;
+    margin-bottom: 50px;
+    padding-top: 0px; /* If unnecessary padding exists */
+    margin-top: 0px;  /* Keep it neutral before going negative */
+
+}
+
+/* Form styling */
+.form-group {
+    margin-bottom: 50px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #130505;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 3px ridge #5b6ce8;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .2);
+}
+
+/* Button styling */
+.btn-login {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-messages {
+    background-color: #f8d7da;
+    border-left: 4px solid #f5c6cb;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.error-messages ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.error-messages li {
+    margin: 0;
+}
+
+/* Additional text */
+.login-section p {
+    text-align: center;
+    margin-top: 15px;
+    color: #555555;
+}
+
+.login-section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-section a:hover {
+    text-decoration: underline;
+}
+
+
+.messages {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Success Message */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Error Message */
+.alert-error, .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Form-Specific Errors */
+.error-messages {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.error-messages ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.login-error-messages { /* New class specifically for login errors */
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb; /* Softer border */
+    color: #721c24;
+    padding: 15px; /* Increased padding */
+    margin-bottom: 20px; /* Increased margin */
+    border-radius: 8px; /* More rounded corners */
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Make the message stand out */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.login-error-messages ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0;
+}
+
+.login-error-messages li {
+    margin-bottom: 5px; /* Space between error messages */
+}
+

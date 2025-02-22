@@ -1,0 +1,404 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #5A67D8;
+    color: white;
+    padding: 15px 20px;
+}
+
+header h1 {
+    margin: 0;
+    text-align: left;
+}
+
+/* nav {
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(3px);
+    border-radius: 5px;
+    box-shadow: 0 5px 30px 0 rgba(22, 32, 220, 0.37);
+    padding-right: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+} */
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 30px;
+    background-color: #E2E8F0;
+    margin-bottom: 20px;
+}
+
+.hero h2 {
+    font-size: 2em;
+    color: #2D3748;
+}
+
+.hero form {
+    margin-top: 20px;
+}
+
+.hero input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #CBD5E0;
+    border-radius: 5px;
+}
+
+.hero button {
+    padding: 10px 20px;
+    background-color: #5A67D8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* General styles for the section */
+/* General styles for the section */
+.book-list {
+    background-color: #f9f9f9;
+    
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* margin: 30px auto; */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Heading styles */
+.book-list h3 {
+    text-align: center;
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Style for the unordered list - using flexbox to display items side by side */
+.book-list ul {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    list-style-type: none;
+    padding: 0;
+    /* justify-content: space-between; */
+}
+
+/* Style for each list item (book) */
+.book-list li {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease-in-out;
+     /* Each item takes up 1/3 of the container width minus the margin */
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
+
+/* Add hover effect for each list item */
+.book-list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* .book-list img {
+
+
+/* Text styling for the book details */
+.book-list strong {
+    font-size: 1.2em;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Author and ISBN styling */
+.book-list li br {
+    display: block;
+    margin: 5px 0;
+    color: #7f8c8d;
+}
+
+/* Styling for the ISBN text */
+.book-list li {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Responsive design: Stack books in one column on small screens */
+@media (max-width: 768px) {
+    .book-list li {
+        width: calc(50% - 10px); /* Two items per row on medium screens */
+    }
+}
+
+/* Further responsive design: Stack books in one column on smaller screens */
+@media (max-width: 480px) {
+    .book-list li {
+        width: 100%; /* One item per row on small screens */
+    }
+}
+
+
+a img {
+    border: none; /* Removes border if the link is styled */
+    transition: transform 0.2s ease;
+}
+
+a img:hover {
+    transform: scale(1.05); /* Slightly enlarges the image on hover */
+    cursor: pointer;
+}
+
+
+footer{
+    margin-top: auto;
+}
+
+
+/* Base styles for the message container */
+.messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 300px;
+    width: 100%;
+}
+
+/* Styles for individual message alerts */
+.alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Close button for messages */
+.alert .close {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Different message types */
+.alert-success {
+    background-color: #4CAF50; /* Green */
+}
+
+.alert-error {
+    background-color: #F44336; /* Red */
+}
+
+.alert-warning {
+    background-color: #FF9800; /* Orange */
+}
+
+.alert-info {
+    background-color: #2196F3; /* Blue */
+}
+
+/* Animation for sliding in messages */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Hover effect for messages */
+.alert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+/* Add this to your CSS file (e.g., styles.css) */
+.no-results {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+}
+
+.no-results h3 {
+    font-size: 24px;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.no-results p {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.no-results-image {
+    width: 150px;
+    height: auto;
+    margin-top: 20px;
+}
+
+
+.book-image {
+    width: 150px; /* Set the desired width */
+    height: 250px; /* Set the desired height */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+}
+
+.show-title {
+    position: absolute;
+    top: -30px; /* Position the title above the image */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: opacity 0.3s ease, top 0.3s ease;
+    white-space: normal; /* Allow text to wrap */
+}
+
+
+.delete-confirmation-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+.book-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.confirmation-form {
+    margin-top: 20px;
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red color for delete button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.btn-cancel {
+    background-color: #6c757d; /* Gray color for cancel button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-menu {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-info {
+    font-weight: bold;
+    color: white;
+    background: #333;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+
+.profile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2 {
+    color: #333;
+    text-align: center;
+}
+
+.profile-container p {
+    font-size: 18px;
+    color: #555;
+    margin: 10px 0;
+}

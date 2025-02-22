@@ -1,0 +1,31 @@
+<!-- templates/categories.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Categories - Digital Library{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'library/css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Browse by Category</h1>
+    <div class="categories-grid">
+        <!-- Loop through categories -->
+        {% for category in categories %}
+        <div class="category-card">
+            <!-- Display category logo if it exists -->
+            {% if category.logo %}
+            <a href="{% url 'books_by_category' category.slug %}">
+            <img src="{{ category.logo.url }}" alt="{{ category.name }}" class="category-logo">
+            </a>
+            {% else %}
+            <div class="no-logo">No Logo Available</div>
+            {% endif %}
+            <div class="category-name">{{ category.name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

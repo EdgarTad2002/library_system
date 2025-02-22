@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Borrowed Books - Digital Library{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<section class="hero">
+    <h2>Your Borrowed Books</h2>
+    <p>Here are the books you've borrowed. Enjoy reading!</p>
+</section>
+<section class="book-list">
+    <ul>
+        {% for borrowed_book in borrowed_books %}
+            <li>
+                <a href="{% url 'book_detail' borrowed_book.book.slug %}">
+                    <img src="{{ borrowed_book.book.photo.url }}" alt="{{ borrowed_book.book.title }}" class="book-image">
+                </a>
+                <div class="show-title">{{ borrowed_book.book.title }}</div>
+                <!-- <strong>{{ book.title }}</strong><br>
+                By {{ book.author }}<br>
+                ISBN: {{ book.isbn }} -->
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>{{ user.username }}'s Profile</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    {% if user.phone %}
+        <p><strong>Phone:</strong> {{ user.phone }}</p>
+    {% endif %}
+    {% if user.data_birth %}
+        <p><strong>Date of Birth:</strong> {{ user.data_birth|date:"Y-m-d" }}</p>
+    {% endif %}
+</div>
+{% endblock %}

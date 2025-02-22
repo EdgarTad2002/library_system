@@ -1,0 +1,15 @@
+<!-- templates/logout.html -->
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Signed Out{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'users/css/logout.css' %}">
+{% endblock %}
+{% block content %}
+<div class="logout-container">
+<h1>You have been logged out.</h1>
+<p>Thank you for using our site.</p>
+<a href="{% url 'home' %}">Return to Home</a>
+</div>
+{% endblock %}

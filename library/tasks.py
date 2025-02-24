@@ -7,7 +7,7 @@ from .models import Borrow
 
 def send_reminder_emails():
     # Send reminders 2 days before the due date
-    reminder_date = timezone.now().date() + timedelta(days=2)
+    reminder_date = timezone.now() + timedelta(days=2)
     borrows = Borrow.objects.filter(due_date__lte=reminder_date, return_date__isnull=True)
 
     for borrow in borrows:

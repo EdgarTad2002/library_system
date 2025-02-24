@@ -5,10 +5,11 @@ from .forms import AddBookForm
 from .utils import SuperuserRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from datetime import timedelta, date, timezone
+from datetime import timedelta, date
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils import timezone
 
 
 # Create your views here.
@@ -41,32 +42,42 @@ class AddBook(SuperuserRequiredMixin, CreateView):
 
 
 class BookDetail(DetailView):
-     
     template_name = 'library/book.html'
     slug_url_kwarg = 'book_slug'
     context_object_name = 'book'
 
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        print(context['book'].title)
+        # Get the default context
+        context = super().get_context_data(**kwargs)
+        
+        # Add the book title to the context
         context['title'] = context['book'].title
 
+        # Check if the user is authenticated and if the book is borrowed
         if self.request.user.is_authenticated:
-            is_borrowed = Borrow.objects.filter(
+            # Get the Borrow object if it exists
+            borrowed_book = Borrow.objects.filter(
                 user=self.request.user,
                 book=context['book'],
                 return_date__isnull=True
-            ).exists()
+            ).first()
+            
+            # Check if the book is borrowed
+            is_borrowed = borrowed_book is not None
+            
+            # Add due_date to context if the book is borrowed
+            if is_borrowed:
+                context['due_date'] = borrowed_book.due_date
         else:
             is_borrowed = False
-        
+
         # Add the result to the context
         context['is_borrowed'] = is_borrowed
 
         return context
-        
-    
+
     def get_object(self, queryset=None):
+        # Fetch the book object or return a 404 error if not found
         return get_object_or_404(Book, slug=self.kwargs[self.slug_url_kwarg])
     
 
@@ -108,7 +119,7 @@ def borrow_book(request, book_id):
     borrow_instance = Borrow.objects.create(
         user=request.user,
         book=book,
-        due_date=date.today() + timedelta(days=3)  # Example: 14-day loan period
+        due_date=timezone.now() + timedelta(days=3)  # Example: 3-day loan period
     )
 
     # Decrease available copies
@@ -147,7 +158,7 @@ def return_book(request, book_id):
         return redirect("borrowed_books")
 
     # Mark the book as returned by setting the return_date
-    existing_borrow.return_date = date.today()
+    existing_borrow.return_date = timezone.now()
     existing_borrow.save()
 
     # Increase available copies

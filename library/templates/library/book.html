@@ -40,6 +40,14 @@
 
         <p><strong>ISBN:</strong> {{ book.isbn }}</p>
         <p><strong>Copies Available:</strong> {{ book.copies_available }}</p>
+
+        {% if is_borrowed %}
+            <p class="due-date">
+                <strong>Due Date:</strong> 
+                <span class="date">{{ due_date|date:"F j, Y" }}</span>
+                <span class="time">{{ due_date|date:"g:i a" }}</span>
+            </p>
+        {% endif %}
         
         <div class="button-container">
             {% if user.is_superuser %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 # Create your models here.
 class Category(models.Model):
@@ -41,9 +42,23 @@ class Book(models.Model):
 class Borrow(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    borrow_date = models.DateField(auto_now_add=True)
-    due_date = models.DateField()
-    return_date = models.DateField(blank=True, null=True)
+    borrow_date = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateTimeField()
+    return_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} borrowed {self.book.title}"
+    
+    def save(self, *args, **kwargs):
+        # Truncate seconds and microseconds from datetime fields
+        if self.borrow_date is not None:
+            self.borrow_date = self.borrow_date.replace(second=0, microsecond=0)
+        if self.due_date is not None:
+            self.due_date = self.due_date.replace(second=0, microsecond=0)
+        if self.return_date is not None:
+            self.return_date = self.return_date.replace(second=0, microsecond=0)
+        super().save(*args, **kwargs)
+
+    def is_overdue(self):
+        """Check if the book is overdue."""
+        return self.return_date is None and timezone.now() > self.due_date

@@ -114,3 +114,19 @@ button:active {
 .btn-delete:hover {
     background-color: #8c061d; /* Darker green on hover */
 }
+
+
+.due-date {
+    font-size: 1rem;
+    color: #333;
+    margin: 1rem 0;
+}
+
+.due-date .date {
+    font-weight: bold;
+    color: #007bff; /* Blue color for the date */
+}
+
+.due-date .time {
+    color: #007bff; /* Gray color for the time */
+}

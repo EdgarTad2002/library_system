@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 class Category(models.Model):
@@ -62,3 +63,34 @@ class Borrow(models.Model):
     def is_overdue(self):
         """Check if the book is overdue."""
         return self.return_date is None and timezone.now() > self.due_date
+    
+
+class Reserve(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Fulfilled', 'Fulfilled'),
+        ('Canceled', 'Canceled'),
+    ]
+
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+    reserve_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    notified = models.BooleanField(default=False)  
+    expiry_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} reserved {self.book.title} at {self.reserve_date}"
+
+    class Meta:
+        ordering = ['reserve_date']
+        verbose_name = 'Reservation'
+        verbose_name_plural = 'Reservations'
+
+    def save(self, *args, **kwargs):
+        if not self.reserve_date:
+            self.reserve_date = timezone.now()
+
+        if not self.expiry_date:
+            self.expiry_date = self.reserve_date + timedelta(days=3)
+        super().save(*args, **kwargs)

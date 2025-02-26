@@ -1,15 +1,16 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Book, Borrow, Category
+from .models import Book, Borrow, Category, Reserve
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from .forms import AddBookForm
 from .utils import SuperuserRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from datetime import timedelta, date
+from datetime import timedelta
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
+from django.core.mail import send_mass_mail
 
 
 # Create your views here.
@@ -73,6 +74,11 @@ class BookDetail(DetailView):
 
         # Add the result to the context
         context['is_borrowed'] = is_borrowed
+        is_available = context['book'].copies_available > 0
+        context['is_available'] = is_available
+
+        is_reserved = Reserve.objects.filter(user=self.request.user, book=context['book'], status="Pending").exists()  # Add this variable
+        context['is_reserved'] = is_reserved
 
         return context
 
@@ -146,6 +152,38 @@ DigitalLibrary Team
 
 
 @login_required
+def reserve_book(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+    
+    existing_borrow = Borrow.objects.filter(user=request.user, book=book, return_date__isnull=True).exists()
+    if existing_borrow:
+        messages.error(request, "You have already borrowed this book and have not returned it yet.")
+        return redirect("book_detail", book_slug=book.slug)
+    
+    if book.copies_available > 0:
+        messages.error(request, "Copies of this book are currently available. You can borrow it")
+        return redirect("book_detail", book_slug=book.slug)
+    
+    existing_reserve = Reserve.objects.filter(user=request.user, book=book, status="Pending").exists()
+    if existing_reserve:
+        messages.error(request, "You have already reserved this book")
+        return redirect("book_detail", book_slug=book.slug)
+    
+    reserve_instance = Reserve.objects.create(
+        user=request.user,
+        book = book,
+        status="Pending"
+    )
+
+    messages.success(request, "You have successfully reserved this book. You will be notified when it becomes available.")
+
+    # Redirect to the book detail page
+    return redirect("book_detail", book_slug=book.slug)
+
+
+
+@login_required
 def return_book(request, book_id):
     # Get the book or return a 404 error if it doesn't exist
     book = get_object_or_404(Book, id=book_id)
@@ -165,7 +203,37 @@ def return_book(request, book_id):
     book.copies_available += 1
     book.save()
 
-    # Success message
+    existing_reserves = Reserve.objects.filter(book=book, status="Pending")
+
+    if existing_reserves.exists():
+        # Prepare email data for all users
+        email_subject = f"Book Available to Borrow: {book.title}"
+        email_message = f"""
+The book "{book.title}" is now available for borrowing. Please visit the library to borrow it.
+
+Best regards,
+DigitalLibrary Team
+"""
+        email_from = f"DigitalLibrary <{settings.DEFAULT_FROM_EMAIL}>"
+
+        # Create a list of email tuples for send_mass_mail
+        email_data = [
+            (email_subject, email_message, email_from, [reserve.user.email])
+            for reserve in existing_reserves
+        ]
+
+        # Send emails in bulk
+        try:
+            send_mass_mail(email_data, fail_silently=False)
+        except Exception as e:
+            # Log the error or handle it as needed
+            print(f"Failed to send emails: {e}")
+
+        # Update reservation statuses in bulk
+        for reserve in existing_reserves:
+            reserve.status = "Fulfilled"
+        Reserve.objects.bulk_update(existing_reserves, ['status'])
+
     messages.success(request, f"You have successfully returned {book.title}!")
     return redirect("borrowed_books")
 

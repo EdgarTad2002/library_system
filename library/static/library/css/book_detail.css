@@ -115,6 +115,13 @@ button:active {
     background-color: #8c061d; /* Darker green on hover */
 }
 
+.btn-reserved {
+    background-color: #cccccc; /* Gray background */
+    color: #3e3038; /* Dark gray text */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.7; /* Make the button look faded */
+}
+
 
 .due-date {
     font-size: 1rem;

@@ -57,11 +57,23 @@
             {% endif %}
         
             {% if user.is_authenticated %}
-                {% if not is_borrowed %}
+                {% if not is_borrowed and is_available %}
                 <form method="get" action="{% url 'borrow_book' book.id %}">
                     <button type="submit" class="btn btn-borrow btn-lg">Borrow</button>
                 </form>
-                {% else %}
+
+                {% elif not is_borrowed and not is_available %}
+                    {% if is_reserved %}
+                    <!-- Show Reserved button if the book is already reserved by the user -->
+                    <button type="button" class="btn btn-reserved btn-lg" disabled>Reserved</button>
+                    {% else %}
+                    <!-- Show Reserve button if the book is unavailable and not reserved by the user -->
+                    <form method="get" action="{% url 'reserve_book' book.id %}">
+                        <button type="submit" class="btn btn-borrow btn-lg">Reserve</button>
+                    </form>
+                    {% endif %}
+
+                {% elif is_borrowed %}
                 <form method="get" action="{% url 'return_book' book.id %}">
                     <button type="submit" class="btn btn-borrow btn-lg">Return</button>
                 </form>

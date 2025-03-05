@@ -77,8 +77,9 @@ class BookDetail(DetailView):
         is_available = context['book'].copies_available > 0
         context['is_available'] = is_available
 
-        is_reserved = Reserve.objects.filter(user=self.request.user, book=context['book'], status="Pending").exists()  # Add this variable
-        context['is_reserved'] = is_reserved
+        if self.request.user.is_authenticated:
+            is_reserved = Reserve.objects.filter(user=self.request.user, book=context['book'], status="Pending").exists()  # Add this variable
+            context['is_reserved'] = is_reserved
 
         return context
 

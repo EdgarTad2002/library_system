@@ -20,7 +20,10 @@
                 <li><a href="{% url 'borrowed_books' %}">My Borrowed Books</a></li>
                 <li class="user-info">
                     <a href="{% url 'users:user_profile' user.username %}">Hello, <strong>{{ user.username }}</strong></a> | 
-                    <a href="{% url 'users:logout' %}" onclick="return confirmLogout()">Logout</a>
+                    <form id="logout-form" action="{% url 'users:logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirmLogout()" style="border: none; background: none; color: white; cursor: pointer;">Logout</button>
+                    </form>
                 </li>
                 {% else %}
                 <li><a href="{% url 'users:login' %}">Login</a></li>

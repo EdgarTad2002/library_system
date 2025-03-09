@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'library',
     'users',
     'api',
+
 ]
 
 MIDDLEWARE = [
@@ -172,3 +175,12 @@ CRONJOBS = [
     # Run at odd hours (01:00, 03:00, 05:00, etc.)
     ('0 1-23/2 * * *', 'library.tasks.auto_return_overdue_books'),
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

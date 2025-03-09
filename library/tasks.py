@@ -33,7 +33,7 @@ def auto_return_overdue_books():
     print(overdue_borrows)
     print(timezone.now().date())
     for borrow in overdue_borrows:
-        borrow.return_date = timezone.now().date()
+        borrow.return_date = timezone.now()
         borrow.save()
 
         # Increase available copies

@@ -3,11 +3,7 @@
 {% load static %}
 
 {% block title %}
-    {% if is_update %}
-        {{ title }}
-    {% else %}
-        Add New Book
-    {% endif %}
+    {{ title }}
 {% endblock %}
 
 {% block extra_css %}
@@ -16,17 +12,13 @@
 {% block content %}
 
 <div class="container">
-    <h1>Add New Book</h1>
+    <h1>{{ title }}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             {{ form.as_p }}
         </div>
-        {% if is_update %}
-        <button type="submit" class="btn btn-primary">Save</button>
-        {% else %}
-        <button type="submit" class="btn btn-primary">Add Book</button>
-        {% endif %}
+        <button type="submit" class="btn btn-primary">{{ button_text }}</button>
     </form>
 </div>
 

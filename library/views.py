@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
 from django.core.mail import send_mass_mail
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -39,10 +40,17 @@ def home(request):
 class AddBook(SuperuserRequiredMixin, CreateView):
     form_class = AddBookForm
     template_name = 'library/book_form.html'
-    success_url = '/'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Register New Book"
+        context['button_text'] = "Add Book"
+        return context
 
 
 class BookDetail(DetailView):
+    model = Book
     template_name = 'library/book.html'
     slug_url_kwarg = 'book_slug'
     context_object_name = 'book'
@@ -51,9 +59,6 @@ class BookDetail(DetailView):
         # Get the default context
         context = super().get_context_data(**kwargs)
         
-        # Add the book title to the context
-        context['title'] = context['book'].title
-
         # Check if the user is authenticated and if the book is borrowed
         if self.request.user.is_authenticated:
             # Get the Borrow object if it exists
@@ -78,14 +83,14 @@ class BookDetail(DetailView):
         context['is_available'] = is_available
 
         if self.request.user.is_authenticated:
-            is_reserved = Reserve.objects.filter(user=self.request.user, book=context['book'], status="Pending").exists()  # Add this variable
+            is_reserved = Reserve.objects.filter(user=self.request.user, book=context['book'], status="Pending").exists()
             context['is_reserved'] = is_reserved
 
         return context
 
-    def get_object(self, queryset=None):
-        # Fetch the book object or return a 404 error if not found
-        return get_object_or_404(Book, slug=self.kwargs[self.slug_url_kwarg])
+    # def get_object(self, queryset=None):
+    #     # Fetch the book object or return a 404 error if not found
+    #     return get_object_or_404(Book, slug=self.kwargs[self.slug_url_kwarg])
     
 
 
@@ -93,12 +98,12 @@ class UpdatePage(SuperuserRequiredMixin, UpdateView):
     model = Book
     fields = ['title', 'author', 'content', 'isbn', 'publisher','category', 'copies_available', 'photo', 'slug']
     template_name = 'library/book_form.html'
-    success_url = '/'
+    success_url = reverse_lazy('home')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Change Book Information'
-        context['is_update'] = True
+        context['title'] = 'Edit Book Details'
+        context['button_text'] = "Save"
         return context
     
 
@@ -126,7 +131,7 @@ def borrow_book(request, book_id):
     borrow_instance = Borrow.objects.create(
         user=request.user,
         book=book,
-        due_date=timezone.now() + timedelta(days=3)  # Example: 3-day loan period
+        due_date=timezone.now() + timedelta(days=10)  # Example: 10-day loan period
     )
 
     # Decrease available copies

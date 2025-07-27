@@ -94,3 +94,16 @@ class Reserve(models.Model):
         if not self.expiry_date:
             self.expiry_date = self.reserve_date + timedelta(days=3)
         super().save(*args, **kwargs)
+
+
+class DailyTaskRun(models.Model):
+    task_name = models.CharField(max_length=255, unique=True, help_text="Unique name for the scheduled task")
+    last_run_datetime = models.DateTimeField(default=timezone.now,
+                                            help_text="The exact datetime the task last ran")
+
+    class Meta:
+        verbose_name = "Daily Task Run"
+        verbose_name_plural = "Daily Task Runs"
+
+    def __str__(self):
+        return f"{self.task_name} last ran on {self.last_run_datetime.date()} at {self.last_run_datetime.time()}"

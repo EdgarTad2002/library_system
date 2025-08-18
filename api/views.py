@@ -66,6 +66,7 @@ class BorrowBookAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         """Save the borrow record with the logged-in user"""
         serializer.save(user=self.request.user)
+        
 
 class ReturnBookAPIView(generics.UpdateAPIView):
     """API to return a borrowed book"""
@@ -73,11 +74,17 @@ class ReturnBookAPIView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        """Find the active borrow record of the logged-in user for this book"""
+        """Find the active borrow record using book_id from the request body."""
         user = self.request.user
-        book_id = self.kwargs.get("book_id")
+        
+        # Get the book_id from the request body
+        book_id = self.request.data.get("book")
 
+        if not book_id:
+            raise ValidationError({"book": ["This field is required."]})
+            
         try:
+            # Find the active borrow record based on user and book_id
             borrow = Borrow.objects.get(user=user, book_id=book_id, return_date__isnull=True)
         except Borrow.DoesNotExist:
             raise ValidationError("You have not borrowed this book or have already returned it.")

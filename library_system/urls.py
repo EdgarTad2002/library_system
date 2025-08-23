@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('library.urls')),
     path('users/', include('users.urls')),
     path('api/', include('api.urls')),
+    path('silk/', include('silk.urls', namespace='silk')),
 ]
 
 

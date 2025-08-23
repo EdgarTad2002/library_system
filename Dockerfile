@@ -11,5 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the project's source code
 COPY . .
 
-# Command to run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Copy the startup script into the container
+COPY start.sh .
+
+# Make the startup script executable inside the container
+RUN chmod +x start.sh
+
+# Use the startup script as the entrypoint for the container
+ENTRYPOINT ["./start.sh"]

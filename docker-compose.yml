@@ -1,10 +1,13 @@
-version: '3.8'
-
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    # The 'command' line is removed because ENTRYPOINT is now defined in the Dockerfile
+    # and points to your start.sh script.
     volumes:
       - .:/usr/src/app
+      - db_volume:/usr/src/app/db_data
     ports:
       - "8000:8000"
+
+volumes:
+  db_volume:

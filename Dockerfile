@@ -17,5 +17,8 @@ COPY start.sh .
 # Make the startup script executable inside the container
 RUN chmod +x start.sh
 
+
 # Use the startup script as the entrypoint for the container
 ENTRYPOINT ["./start.sh"]
+
+CMD ["./start.sh"]

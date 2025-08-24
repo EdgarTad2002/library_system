@@ -1,4 +1,9 @@
 #!/bin/bash
+# TEMPORARY CHANGE
+
+# Apply database migrations
+echo "Applying database migrations..."
+# ... rest of your script ...
 
 # Apply database migrations
 echo "Applying database migrations..."

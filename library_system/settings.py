@@ -29,7 +29,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.108', 
-                 '30a5-141-136-76-15.ngrok-free.app',       # Add your IP address here
                  '127.0.0.1',
                  'localhost', '127.0.0.1',
                 ]

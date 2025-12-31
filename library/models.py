@@ -34,6 +34,18 @@ class Book(models.Model):
                                MinLengthValidator(5, message="Минимум 5 символов"),
                                MaxLengthValidator(100, message="Максимум 100 символов"),
                             ])
+    
+    source_url = models.URLField(
+        unique=True,
+        null=True,
+        blank=True,
+        help_text="Original URL where the book was scraped from"
+    )
+
+    is_scraped = models.BooleanField(
+        default=False,
+        help_text="Was this book added automatically by scraper?"
+    )
 
 
     def __str__(self):

@@ -13,6 +13,6 @@ urlpatterns = [
     path('borrow/', views.BorrowBookAPIView.as_view(), name='api-borrow-book'),
     path("return/", views.ReturnBookAPIView.as_view(), name="api-return-book"),
     path('auth/', include('djoser.urls')),          
-    re_path(r'^auth/', include('djoser.urls.authtoken')),  # new
+    re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]
 

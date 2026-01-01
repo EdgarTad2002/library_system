@@ -3,6 +3,7 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import timedelta
+import uuid
 
 # Create your models here.
 class Category(models.Model):
@@ -10,6 +11,7 @@ class Category(models.Model):
     logo = models.ImageField(upload_to="photos/%Y/%m/%d/", default=None,
                               blank=True, null=True, verbose_name="Logo")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, null=True)
+    is_featured = models.BooleanField(default=False)
 
     def  __str__(self):
         return self.name
@@ -23,7 +25,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     content = models.TextField(blank=True, verbose_name="Book Description")
-    isbn = models.CharField(max_length=13, unique=True)
+    isbn = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     publisher = models.CharField(max_length=100)
     category = models.ManyToManyField(Category, related_name='books')
     copies_available = models.IntegerField()

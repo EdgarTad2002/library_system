@@ -70,12 +70,8 @@ def parse_listing_page(page_url):
 
 
 def scrape_books(max_pages=2, delay=1):
-    """
-    Scrape books and return list of dicts
-    """
     base_url = "https://books.toscrape.com/catalogue/page-{}.html"
     scraped_books = []
-    isbn_counter = 1000000
 
     for page in range(1, max_pages + 1):
         page_url = base_url.format(page)
@@ -90,14 +86,13 @@ def scrape_books(max_pages=2, delay=1):
         for book_url in book_urls:
             try:
                 book_data = parse_book_detail(book_url)
-                book_data["isbn"] = f"AUTO-{isbn_counter}"
-                isbn_counter += 1
                 scraped_books.append(book_data)
                 time.sleep(delay)
             except Exception as e:
                 print("Failed book:", book_url, e)
 
     return scraped_books
+
 
 
 def save_books_to_db(scraped_books):
@@ -112,14 +107,12 @@ def save_books_to_db(scraped_books):
                 "author": item.get("author", "Unknown"),
                 "content": item.get("content", ""),
                 "publisher": item.get("publisher", "Unknown"),
-                "isbn": item["isbn"],
+                # "isbn": item["isbn"],
                 "copies_available": item.get("copies_available", 1),
                 "is_scraped": True,
                 "slug": slugify(item["title"])[:100],
             }
         )
-
-        # ✅ SAVE IMAGE ONLY IF NOT ALREADY SAVED
         if item.get("image_url") and not book.photo:
             image_content = download_image(item["image_url"])
             image_name = os.path.basename(item["image_url"])
@@ -128,10 +121,9 @@ def save_books_to_db(scraped_books):
         # Categories
         book.category.clear()
         for cat_name in item["categories"]:
-            category, _ = Category.objects.get_or_create(
-                name=cat_name,
-                defaults={"slug": slugify(cat_name)}
-            )
+            slug = slugify(cat_name)
+
+            category, _ = Category.objects.get_or_create(slug=slug, defaults={"name": cat_name})
             book.category.add(category)
 
         if created:

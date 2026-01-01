@@ -8,3 +8,4 @@ class AddBookForm(forms.ModelForm):
     class Meta:
         model = Book 
         fields = ['title', 'author', 'content', 'isbn', 'publisher', 'category', 'copies_available', 'photo', 'slug']
+        exclude = ["isbn"]

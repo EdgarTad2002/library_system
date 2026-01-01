@@ -96,7 +96,7 @@ class BookDetail(DetailView):
 
 class UpdatePage(SuperuserRequiredMixin, UpdateView):
     model = Book
-    fields = ['title', 'author', 'content', 'isbn', 'publisher','category', 'copies_available', 'photo', 'slug']
+    fields = ['title', 'author', 'content', 'publisher','category', 'copies_available', 'photo', 'slug']
     template_name = 'library/book_form.html'
     success_url = reverse_lazy('home')
     
@@ -254,7 +254,8 @@ def borrowed_books(request):
 
 def categories(request):
     # Fetch all categories from the database
-    categories = Category.objects.all()
+    categories = Category.objects.filter(is_featured=True)
+
     
     # Pass the categories to the template
     return render(request, 'library/categories.html', {'categories': categories})
